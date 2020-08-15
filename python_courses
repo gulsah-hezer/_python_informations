@@ -54,6 +54,138 @@ python for cyber security...
 ****                          ****.                    *****
 
 
+WHAT ARE THE MODULES AND PACKAGES ?
+
+
+Modular programming refers to the process of breaking a large, unwieldy programming task into separate, smaller, more manageable subtasks or modules.
+Individual modules can then be cobbled together like building blocks to create a larger application.
+
+Python Modules:
+ere, the focus will mostly be on modules that are written in Python. 
+The cool thing about modules written in Python is that they are exceedingly straightforward to build. 
+All you need to do is create a file that contains legitimate Python code and then give the file a name with a .py extension.
+That’s it! No special syntax or voodoo is necessary.
+
+For example, suppose you have created a file called mod.py containing the following:
+
+s = "If Comrade Napoleon says it, it must be right."
+a = [100, 200, 300]
+
+def foo(arg):
+    print(f'arg = {arg}')
+
+class Foo:
+    pass
+    
+****
+Several objects are defined in mod.py:
+
+s (a string)
+a (a list)
+foo() (a function)
+Foo (a class)
+
+****
+
+Assuming mod.py is in an appropriate location, which you will learn more about shortly, 
+these objects can be accessed by importing the module as follows:
+
+>>> import mod
+>>> print(mod.s)
+If Comrade Napoleon says it, it must be right.
+>>> mod.a
+[100, 200, 300]
+>>> mod.foo(['quux', 'corge', 'grault'])
+arg = ['quux', 'corge', 'grault']
+>>> x = mod.Foo()
+>>> x
+<mod.Foo object at 0x03C181F0>
+
+****
+
+>>> from mod import s, foo
+>>> s
+'If Comrade Napoleon says it, it must be right.'
+>>> foo('quux')
+arg = quux
+
+>>> from mod import Foo
+>>> x = Foo()
+>>> x
+<mod.Foo object at 0x02E3AD50>
+
+****
+
+When a .py file is imported as a module, Python sets the special dunder variable __name__ to the name of the module.
+However, if a file is run as a standalone script, __name__ is (creatively) set to the string '__main__'.
+Using this fact, you can discern which is the case at run-time and alter behavior accordingly:
+
+s = "If Comrade Napoleon says it, it must be right."
+a = [100, 200, 300]
+
+def foo(arg):
+    print(f'arg = {arg}')
+
+class Foo:
+    pass
+
+if (__name__ == '__main__'):
+    print('Executing as standalone script')
+    print(s)
+    print(a)
+    foo('quux')
+    x = Foo()
+    print(x)
+    
+****
+
+Python Packages:
+Suppose you have developed a very large application that includes many modules. 
+As the number of modules grows, it becomes difficult to keep track of them all if they are dumped into one location.
+This is particularly so if they have similar names or functionality. 
+You might wish for a means of grouping and organizing them.
+
+****
+
+>>> from pkg.mod1 import foo
+>>> foo()
+[mod1] foo()
+
+****
+
+Package Initialization:
+If a file named __init__.py is present in a package directory, it is invoked when the package or a module in the package is imported. 
+This can be used for execution of package initialization code, such as initialization of package-level data.
+
+For example, consider the following __init__.py file:
+
+print(f'Invoking __init__.py for {__name__}')
+A = ['quux', 'corge', 'grault']
+
+>>> import pkg
+Invoking __init__.py for pkg
+>>> pkg.A
+['quux', 'corge', 'grault']
+
+****
+
+mod1.py
+
+def foo():
+    from pkg import A
+    print('[mod1] foo() / A = ', A)
+
+class Foo:
+    pass
+    
+****
+
+>>> from pkg import mod1
+Invoking __init__.py for pkg
+>>> mod1.foo()
+[mod1] foo() / A =  ['quux', 'corge', 'grault']
+
+****
 
 
 
